@@ -1,3 +1,5 @@
+// РРаботает только в powershell
+
 const fs = require('fs');
 const path = require('path');
 const textPath = path.resolve(__dirname, 'text.txt');
@@ -27,7 +29,7 @@ console.log('Привет, введите данные. При использо�
 rl.on('line', (input) => {
   if (input === 'exit') {
     // console.log('Поток прерван, пока.');
-    rl.close();
+    process.exit(0);
   } 
   fs.appendFile(textPath, input + '\n', (err) => {
     if (err) throw err;
@@ -35,6 +37,6 @@ rl.on('line', (input) => {
 //   appendText(input + '\n');
 });
 process.on('exit', () => 
-  console.log('Поток прерван. Посмотрите остальные задания перед дедлайном.'));
+  console.log('Поток прерван.'));
 process.on('SIGINT', () => 
   rl.close());
