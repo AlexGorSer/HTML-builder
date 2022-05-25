@@ -13,7 +13,7 @@ fs.readdir(secretFolderPath, (err, files) => {
     fs.stat(fileStat, (err, sts) => {
       if (err) throw err;
       if(!sts.isDirectory()) {
-        console.log(`File name: ${path.parse(files).name}; type: ${path.extname(files)}; size: ${sts.size}-bytes.`);
+        console.log(`File name: ${path.parse(files).name}; type: ${path.parse(files).ext}; size: ${sts.size}-bytes.`);
       }
     });
   });
