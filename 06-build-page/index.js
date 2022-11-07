@@ -39,7 +39,7 @@ fs.readdir(copyAssets, { withFileTypes: true }, (err, folders) => {
     if(err) throw err;
   } )
   const assetsCopy = path.join(projectFolder, 'assets');
-  console.log(assetsCopy);
+
   folders.forEach(folder =>{
       fs.readdir(path.join(copyAssets, folder.name), { withFileTypes: true }, (err, file) => {
     if(err) throw err;
@@ -64,27 +64,28 @@ let content;
 fs.readFile(template, 'utf8',  (err, data) => {
   if(err) throw err;
   templateData = data;
-});
-
-fs.readdir(copyComponents, (err, files) => {
-  if(err) throw err;
-
-
-  files.forEach(file => {
-    let nameFile = path.basename(path.join(copyComponents, file), '.html');
-
-    fs.stat(path.join(copyComponents, file), (err, stats) => {
-      if(err) throw err;
-      if (stats.isFile() && path.extname(file) === '.html'){
-        fs.readFile(path.join(copyComponents, file), 'utf-8', (err, data) => {
-          if(err) throw err;
-          content = data;
-          const bundleHTML = fs.createWriteStream(path.join(projectFolder, 'index.html'), 'utf-8', 'index.html');
-          templateData = templateData.replace(`{{${nameFile}}}`, content);
-
-          bundleHTML.write(templateData);
-        })
-      }
+  fs.readdir(copyComponents, (err, files) => {
+    if(err) throw err;
+  
+  
+    files.forEach(file => {
+      let nameFile = path.basename(path.join(copyComponents, file), '.html');
+  
+      fs.stat(path.join(copyComponents, file), (err, stats) => {
+        if(err) throw err;
+        if (stats.isFile() && path.extname(file) === '.html'){
+          fs.readFile(path.join(copyComponents, file), 'utf-8', (err, data) => {
+            if(err) throw err;
+            content = data;
+            const bundleHTML = fs.createWriteStream(path.join(projectFolder, 'index.html'), 'utf-8', 'index.html');
+            templateData = templateData.replace(`{{${nameFile}}}`, content);
+  
+            bundleHTML.write(templateData);
+          })
+        }
+      })
     })
   })
-})
+  
+});
+
